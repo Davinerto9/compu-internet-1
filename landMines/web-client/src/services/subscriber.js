@@ -1,10 +1,14 @@
 
 class Subscriber extends Game.Observer{
 
-    notifyMessage(msg){
-        console.log("Mesaje de server: ",msg)
+    constructor(observer){
+        super()
+        this.observer = observer;
+    }
+    updateData(msg){
+        this.observer.update(msg)
     }
 
 }
 
-export default new Subscriber();
+export default Subscriber;

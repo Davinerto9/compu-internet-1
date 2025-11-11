@@ -12,7 +12,7 @@ export class IceDelegatge {
     if (this.subject) {
       return;
     }
-    const hostname = 'localhost';
+    const hostname = '192.168.131.139';
 
     const proxySubject = this.communicator.stringToProxy(
       `Subject:ws -h ${hostname} -p 9099`

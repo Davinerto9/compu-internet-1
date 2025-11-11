@@ -36,7 +36,7 @@ public class SubjectImpl implements Subject {
 
         for (ObserverPrx prx : list) {
             try {
-                prx.notifyMessage(data);
+                prx.notifyMessageAsync(data);
             } catch (Exception e) {
                 disconnected.add(prx);
                 e.printStackTrace();

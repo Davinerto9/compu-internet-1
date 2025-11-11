@@ -7,7 +7,7 @@ public class Capturer {
     public static void main(String[] args)throws Exception {
         Communicator communicator = Util.initialize();
 
-        ObjectAdapter adapter = communicator.createObjectAdapterWithEndpoints("Server", "ws -h localhost -p 9099");
+        ObjectAdapter adapter = communicator.createObjectAdapterWithEndpoints("Server", "ws -h 192.168.131.139 -p 9099");
 
         SubjectImpl impl = new SubjectImpl();
 

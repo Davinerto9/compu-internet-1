@@ -21,11 +21,12 @@ module Game{
     }
 
     interface Observer{
-        void notifyMessage(string hello);
+        void updateData(PixelMatrix newMatrix);
     }
     
     interface Subject{
         void attachObserver(Observer* objs);
+        void deAttach(Observer* obs);
     }
 
 }

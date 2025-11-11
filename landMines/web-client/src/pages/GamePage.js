@@ -7,7 +7,7 @@ const showCell = async (cellId) => {
   const i = parseInt(id[0]);
   const j = parseInt(id[1]);
 
-  let data = await delegate.selectCell(i , j)
+  let data = await delegate.selectCell(i, j);
 
   const win = data.win;
   const end = data.gameEnd;
@@ -20,17 +20,16 @@ const showCell = async (cellId) => {
     }
   }
 
-  ReloadBoard(data.board)
+  ReloadBoard(data.board);
 };
-
 
 const ReloadBoard = (boardMatrix) => {
   const container = document.getElementById('home-page');
+  if (!container) return;
   container.removeChild(container.querySelector('.board'));
   const board = Board(boardMatrix, showCell);
   container.appendChild(board);
-
-}
+};
 
 function Game() {
   const container = document.createElement('div');
@@ -40,21 +39,28 @@ function Game() {
   title.classList = 'title';
   container.appendChild(title);
 
-
-  const button = document.createElement("button")
-  button.textContent = "Reset"
+  const button = document.createElement('button');
+  button.textContent = 'Reset';
   container.appendChild(button);
 
-  button.onclick = async() => {
+  button.onclick = async () => {
     const board = await delegate.resetBoard();
-    ReloadBoard(board)
-  }
-
+    ReloadBoard(board);
+  };
 
   const cells = delegate.getBoard();
   cells.then((data) => {
     const board = Board(data, showCell);
     container.appendChild(board);
+  });
+
+  delegate.subscribe((msg) => {
+    // const cells = delegate.getBoard();
+    // cells.then((data) => {
+    //   ReloadBoard(data);
+    // });
+
+    ReloadBoard(msg);
   });
 
   return container;

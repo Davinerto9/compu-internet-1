@@ -100,7 +100,7 @@
 
     Slice.defineOperations(Game.Observer, Game.ObserverPrx, iceC_Game_Observer_ids, 0,
     {
-        "notifyMessage": [, , , , , [[7]], , , , ]
+        "updateData": [, , , , , [["Game.PixelMatrixHelper"]], , , , ]
     });
 
     const iceC_Game_Subject_ids = [
@@ -118,7 +118,8 @@
 
     Slice.defineOperations(Game.Subject, Game.SubjectPrx, iceC_Game_Subject_ids, 0,
     {
-        "attachObserver": [, , , , , [["Game.ObserverPrx"]], , , , ]
+        "attachObserver": [, , , , , [["Game.ObserverPrx"]], , , , ],
+        "deAttach": [, , , , , [["Game.ObserverPrx"]], , , , ]
     });
     exports.Game = Game;
 }

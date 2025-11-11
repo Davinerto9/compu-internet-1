@@ -5,6 +5,7 @@ import java.util.List;
 
 import com.zeroc.Ice.Current;
 
+import Game.CellDTO;
 import Game.ObserverPrx;
 import Game.Subject;
 
@@ -32,13 +33,18 @@ public class SubjectImpl implements Subject {
         }
     }
 
-    public void notifyObs() {
+    @Override
+    public void deAttach(ObserverPrx obs, Current current) {
+        // TODO Auto-generated method stub
+        
+    }
+
+    public void notifyObs(CellDTO[][] data) {
         System.out.println("notify: " + list.size());
         List<ObserverPrx> disconnected = new ArrayList<Game.ObserverPrx>();
-
         for (ObserverPrx prx : list) {
             try {
-                prx.notifyMessage("hello");
+                prx.updateData(data);
             } catch (Exception e) {
                 disconnected.add(prx);
                 e.printStackTrace();

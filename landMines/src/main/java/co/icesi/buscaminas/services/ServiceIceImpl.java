@@ -19,8 +19,9 @@ public class ServiceIceImpl implements GameServices {
 
     @Override
     public boolean selectCell(int i, int j, Current current) {
-        subject.notifyObs();
-        return servicesImpl.selectCell(i, j);
+        boolean ret = servicesImpl.selectCell(i, j);
+        subject.notifyObs(getBoard(current));
+        return ret;
     }
 
     @Override

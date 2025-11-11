@@ -1,10 +1,10 @@
-import subscriber from './subscriber.js';
-
-
+import Subscriber from './subscriber.js';
 
 export class IceDelegatge {
   constructor() {
     this.communicator = Ice.initialize();
+    this.callbacks = [];
+    this.subscriber = new Subscriber(this);
   }
   async init() {
     if (this.printer) {
@@ -16,6 +16,8 @@ export class IceDelegatge {
     );
     this.printer = await Game.GameServicesPrx.checkedCast(proxy);
 
+    // ---- Conexión del callback
+
     const proxySubject = this.communicator.stringToProxy(
       `Subject:ws -h ${hostname} -p 9099`
     );
@@ -23,17 +25,26 @@ export class IceDelegatge {
     this.subject = await Game.SubjectPrx.checkedCast(proxySubject);
 
     const adapter = await this.communicator.createObjectAdapter('');
-    
+
     const conn = this.subject.ice_getCachedConnection();
     conn.setAdapter(adapter);
-    
 
     const callbackPrx = Game.ObserverPrx.uncheckedCast(
-      adapter.addWithUUID(subscriber)
+      adapter.addWithUUID(this.subscriber)
     );
 
-
     await this.subject.attachObserver(callbackPrx);
+  }
+
+  update(msg) {
+    if (!this.callbacks) return;
+    this.callbacks.forEach((callback) => {
+      callback(msg);
+    });
+  }
+
+  subscribe(callback) {
+    this.callbacks.push(callback);
   }
 
   async getBoard() {
